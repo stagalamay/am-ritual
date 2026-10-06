@@ -1,0 +1,887 @@
+/* AM Ritual: sample site.
+   Written phone first. The layout for wider screens is at the bottom, inside the media query. */
+
+:root {
+  --cream: #f6f0e6;     /* page background */
+  --beige: #eae0d0;     /* quieter panels */
+  --espresso: #2a1b13;  /* text and dark sections */
+  --olive: #666e4d;     /* accent */
+  --sage: #b9bfa3;      /* accent on dark backgrounds */
+  --line: #d5c9b5;      /* thin lines */
+
+  /* Space at the left and right of every section. It grows on very wide screens so the content stays centred. */
+  --gutter: max(1.25rem, calc((100vw - 78rem) / 2));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--espresso);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  overflow-x: hidden; /* the tilted photos must not cause sideways scrolling */
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(2.6rem, 11vw, 5.25rem);
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* Italic words in headings carry the accent colour. */
+em {
+  font-style: italic;
+  color: var(--olive);
+}
+
+p {
+  margin: 1rem 0 0;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--olive);
+  outline-offset: 4px;
+}
+
+.large {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  line-height: 1.3;
+}
+
+/* Hidden until a keyboard user tabs to it. */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 0.75rem 1rem;
+  z-index: 20;
+}
+
+.skip-link:focus {
+  left: 0;
+  top: 0;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  background: var(--espresso);
+  color: var(--cream);
+  border: 1px solid var(--espresso);
+  border-radius: 2px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.button:hover {
+  background: var(--olive);
+  border-color: var(--olive);
+}
+
+.button-light {
+  background: var(--cream);
+  color: var(--espresso);
+  border-color: var(--cream);
+}
+
+.button-light:hover {
+  background: var(--sage);
+  border-color: var(--sage);
+}
+
+.text-link {
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--olive);
+}
+
+/* ---------- Top bar ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 1rem var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 0;
+}
+
+/* On a phone the four links sit in their own row under the name. */
+.site-nav {
+  order: 3;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.site-nav a {
+  text-decoration: none;
+  /* The underline is a background that grows from 0 to full width on hover. */
+  background: linear-gradient(var(--olive), var(--olive)) left bottom / 0 1px no-repeat;
+  transition: background-size 0.3s ease;
+  padding-bottom: 0.2rem;
+}
+
+.site-nav a:hover {
+  background-size: 100% 1px;
+}
+
+.site-header .button {
+  padding: 0.6rem 1.1rem;
+}
+
+/* ---------- 1. First screen ---------- */
+
+.hero {
+  padding: 3rem var(--gutter) 7rem;
+}
+
+h1 {
+  font-size: clamp(3.6rem, 17vw, 9rem);
+  line-height: 0.93;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  font-size: 1.2rem;
+  max-width: 26rem;
+  margin-top: 1.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.status {
+  font-size: 0.95rem;
+  color: var(--olive);
+}
+
+/* The photo is pushed in from the left and runs off the right edge of the screen. */
+.hero-photo {
+  position: relative;
+  margin: 3.5rem calc(-1 * var(--gutter)) 0 14%;
+}
+
+.stamp {
+  position: absolute;
+  right: 1.25rem;
+  top: -3rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  animation: turn 40s linear infinite;
+}
+
+.stamp circle {
+  fill: var(--cream);
+  stroke: var(--espresso);
+  stroke-width: 1;
+}
+
+.stamp text {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 13.5px;
+  letter-spacing: 0.2em;
+  fill: var(--espresso);
+}
+
+.stamp .stamp-centre {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 40px;
+  letter-spacing: 0;
+  fill: var(--olive);
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Shared by the sections below ---------- */
+
+main > section {
+  padding: 5rem var(--gutter);
+}
+
+.section-head p {
+  max-width: 28rem;
+}
+
+/* A photo inside .zoom grows slightly when the pointer is over it. */
+.zoom {
+  overflow: hidden;
+}
+
+.zoom img {
+  transition: transform 0.9s ease;
+}
+
+.zoom:hover img {
+  transform: scale(1.04);
+}
+
+/* reveal.js adds "is-visible" when the element scrolls into view.
+   The ".js" class is only there when JavaScript is running, so nothing stays hidden without it. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 2. Intro ---------- */
+
+.intro {
+  border-top: 1px solid var(--line);
+}
+
+.intro-body {
+  margin-top: 2rem;
+}
+
+/* A small photo, slightly crooked, like a print left on the table. */
+.intro-photo {
+  width: 70%;
+  margin: 3rem 0 0 auto;
+  padding: 0.6rem;
+  background: #fffaf1;
+  border: 1px solid var(--line);
+  rotate: 2.5deg;
+}
+
+/* ---------- 3. Menu ---------- */
+
+.menu {
+  background: var(--beige);
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 1rem;
+  margin-top: 2.5rem;
+}
+
+/* Every second card sits lower, so the grid does not look like a spreadsheet. */
+.category:nth-child(even) {
+  margin-top: 2.5rem;
+}
+
+.category h3 {
+  margin-top: 1rem;
+}
+
+.category p {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.price-list {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--espresso);
+}
+
+/* The tab buttons. menu.js removes the hidden attribute when it starts. */
+.menu-tabs {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+}
+
+.menu-tabs[hidden] {
+  display: none;
+}
+
+.menu-tabs button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.6rem 0;
+  cursor: pointer;
+}
+
+.menu-tabs button[aria-pressed="true"] {
+  border-bottom-color: var(--espresso);
+  font-weight: 500;
+}
+
+.menu-group.is-hidden {
+  display: none;
+}
+
+.menu-group h3 {
+  margin: 1.75rem 0 0.75rem;
+  font-style: italic;
+  color: var(--olive);
+}
+
+.menu-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each row is: name, a dotted line that stretches, then the price. */
+.menu-group li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+}
+
+.dots {
+  flex: 1;
+  border-bottom: 1px dotted #a89b84;
+}
+
+.price {
+  font-weight: 500;
+}
+
+.note {
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+/* ---------- 4. A morning here ---------- */
+
+.collage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 1rem;
+  margin-top: 2.5rem;
+}
+
+.shot figcaption {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.shot-2,
+.shot-5 {
+  margin-top: 3rem;
+}
+
+.shot-3 {
+  grid-column: 1 / -1;
+}
+
+/* ---------- 5. The signature set ---------- */
+
+.signature {
+  background: var(--espresso);
+  color: var(--cream);
+}
+
+.signature-note {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--sage);
+  margin: 0 0 1rem;
+}
+
+.signature h2 {
+  font-size: clamp(3.2rem, 16vw, 8rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.signature-line {
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: var(--sage);
+  margin-top: 1.5rem;
+}
+
+.signature-text p:last-child {
+  max-width: 26rem;
+}
+
+.signature-photo {
+  width: 82%;
+  margin: 3.5rem auto 0;
+  padding: 0.6rem;
+  border: 1px solid #5b4a3f;
+  rotate: -2deg;
+}
+
+/* ---------- 6. About ---------- */
+
+.about-text {
+  margin-top: 2.5rem;
+}
+
+.about-text > p {
+  margin-top: 1.5rem;
+  max-width: 34rem;
+}
+
+.values {
+  margin: 2.5rem 0 0;
+}
+
+.values div {
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.values dt {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.3rem;
+}
+
+.values dd {
+  margin: 0.2rem 0 0;
+}
+
+/* ---------- 7. Visit ---------- */
+
+.visit {
+  background: var(--beige);
+}
+
+address {
+  font-style: normal;
+  margin-top: 2rem;
+}
+
+.hours {
+  width: 100%;
+  max-width: 26rem;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.hours caption {
+  text-align: left;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.hours th,
+.hours td {
+  text-align: left;
+  font-weight: 400;
+  padding: 0.5rem 0.6rem;
+  border-top: 1px solid var(--line);
+}
+
+/* hours.js adds this class to today's row. */
+.hours .today th,
+.hours .today td {
+  font-weight: 500;
+  background: var(--espresso);
+  color: var(--cream);
+}
+
+.visit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: 22rem;
+  border: 0;
+  margin-top: 3rem;
+  filter: sepia(0.25) saturate(0.8); /* warms the map so it sits with the rest of the page */
+}
+
+/* ---------- 8. Last word ---------- */
+
+.closing {
+  background: var(--olive);
+  color: var(--cream);
+  text-align: center;
+}
+
+main > .closing {
+  padding-top: 6.5rem;
+  padding-bottom: 6.5rem;
+}
+
+.closing h2 {
+  font-size: clamp(3rem, 13vw, 7rem);
+}
+
+.closing em {
+  color: var(--cream);
+}
+
+.closing p {
+  margin-top: 2.5rem;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  display: grid;
+  gap: 2rem;
+  padding: 3.5rem var(--gutter);
+  background: var(--espresso);
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+
+.site-footer h2 {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--sage);
+}
+
+.site-footer p {
+  margin-top: 0.4rem;
+}
+
+.sample-note {
+  color: var(--sage);
+}
+
+/* ---------- Added details ---------- */
+
+/* Room at the bottom of the page for the phone bar. */
+body {
+  padding-bottom: 3.4rem;
+}
+
+/* A second, smaller photo that overlaps the corner of the main one. */
+.hero-photo-small {
+  position: absolute;
+  left: -12%;
+  bottom: -3.5rem;
+  width: 44%;
+  border: 0.4rem solid var(--cream);
+}
+
+/* The four menu cards are links to their part of the price list. */
+.category a {
+  display: block;
+  text-decoration: none;
+}
+
+.category a:hover h3 {
+  text-decoration: underline 1px var(--olive);
+  text-underline-offset: 0.2em;
+}
+
+/* When a link jumps to a menu group, stop a little above it so the tabs stay in view. */
+.menu-group {
+  scroll-margin-top: 4.5rem;
+}
+
+.collage-line {
+  grid-column: 1 / -1;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  line-height: 1.12;
+  margin: 1.5rem 0 0;
+}
+
+/* nav.js marks the link for the section on screen. It gets the same underline as on hover. */
+.site-nav a[aria-current="true"] {
+  background-size: 100% 1px;
+}
+
+.quick-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  background: var(--espresso);
+  border-top: 1px solid #5b4a3f;
+}
+
+.quick-bar a {
+  flex: 1;
+  padding: 0.9rem 0.5rem;
+  text-align: center;
+  color: var(--cream);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.quick-bar a + a {
+  border-left: 1px solid #5b4a3f;
+}
+
+/* ---------- Wider screens: tablets sideways and laptops ---------- */
+
+@media (min-width: 60rem) {
+  :root {
+    --gutter: max(3.5rem, calc((100vw - 78rem) / 2));
+  }
+
+  /* Leave room for the fixed bar when a link jumps to a section. */
+  html {
+    scroll-padding-top: 4.5rem;
+  }
+
+  /* The bar stays at the top while you scroll. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--cream);
+  }
+
+  .site-nav {
+    order: 0;
+    width: auto;
+    gap: 2.5rem;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 2rem;
+    align-items: start;
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+  }
+
+  .hero-text {
+    padding-top: 2rem;
+  }
+
+  .hero-photo {
+    margin: 4rem 0 0;
+  }
+
+  .stamp {
+    right: -2.5rem;
+    top: -4rem;
+    width: 10rem;
+    height: 10rem;
+  }
+
+  main > section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .intro {
+    display: grid;
+    grid-template-columns: 5fr 5fr 2fr;
+    gap: 2rem 4rem;
+  }
+
+  .intro-body {
+    margin-top: 0.75rem;
+  }
+
+  .intro-photo {
+    grid-column: 1 / 2;
+    width: 75%;
+    margin: -1rem 0 0 10%;
+  }
+
+  .categories {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .category:nth-child(even) {
+    margin-top: 5rem;
+  }
+
+  /* All four menu groups fit here, so the tabs are not needed. */
+  .menu-tabs {
+    display: none;
+  }
+
+  .menu-group.is-hidden {
+    display: block;
+  }
+
+  .menu-groups {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+
+  .menu-group h3 {
+    margin-top: 0;
+  }
+
+  /* The collage: twelve columns, and each photo is told which columns to cover.
+     Negative margins pull some photos up so they overlap the row above. */
+  .collage {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .shot-1 { grid-column: 1 / 6; grid-row: 1; }
+  .shot-3 { grid-column: 7 / 13; grid-row: 1; margin-top: 7rem; }
+  .shot-2 { grid-column: 4 / 7; grid-row: 2; margin-top: -9rem; z-index: 1; }
+  .shot-4 { grid-column: 8 / 11; grid-row: 2; margin-top: 2rem; }
+  .shot-5 { grid-column: 11 / 13; grid-row: 2; margin-top: -5rem; }
+
+  .shot-2 img {
+    border: 0.6rem solid var(--cream);
+  }
+
+  .signature {
+    display: grid;
+    grid-template-columns: 7fr 4fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .signature-photo {
+    width: 100%;
+    margin: 0;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-text {
+    margin-top: 0;
+  }
+
+  .visit {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 5rem;
+  }
+
+  .map {
+    height: 100%;
+    min-height: 30rem;
+    margin-top: 0;
+  }
+
+  /* The phone bar is not needed here: the top bar is always visible. */
+  .quick-bar {
+    display: none;
+  }
+
+  body {
+    padding-bottom: 0;
+  }
+
+  .hero-photo-small {
+    left: -24%;
+    bottom: -4rem;
+    width: 42%;
+    border-width: 0.6rem;
+  }
+
+  /* The line of text fills the empty corner of the collage. */
+  .collage-line {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    align-self: end;
+    margin: 0;
+  }
+
+  .site-footer {
+    grid-template-columns: 2fr 2fr 3fr;
+    gap: 4rem;
+  }
+}
+
+/* Some people set their device to reduce motion. For them: no fades, no spinning stamp, no smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .stamp {
+    animation: none;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .zoom img {
+    transition: none;
+  }
+}
